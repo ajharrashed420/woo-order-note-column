@@ -1,16 +1,17 @@
 /* Notes column styling */
-.widefat .column-order_notes {
+table.widefat .column-wonc_order_notes,
+table.wp-list-table .column-wonc_order_notes {
     width: 50px;
     text-align: center;
 }
 
-.wc-order-notes-toggle {
+.wonc-order-notes-toggle {
     display: inline-block;
     position: relative;
     text-decoration: none;
 }
 
-.wc-order-notes-count {
+.wonc-order-notes-count {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -25,18 +26,38 @@
 }
 
 /* Notes popup styling */
-.wc-order-notes-container {
-    position: absolute;
+.wonc-order-notes-container {
+    position: fixed;
+    top: 50px; left: 0; right: 0; bottom: 30px;
+    margin: auto;
     z-index: 9999;
-    width: 350px;
+    width: 100%;
+    max-width: 400px;
     background: #fff;
     border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    margin-top: 5px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    padding: 20px 20px 15px 20px;
+    min-width: 0;
+    min-height: 0;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: none;
+    border-radius: 8px;
 }
 
-.wc-order-notes-list {
+@media (max-width: 600px) {
+    .wonc-order-notes-container
+     {
+        width: 95vw;
+        max-width: 90vw;
+        left: 10px;
+        right: 10px;
+        padding: 12px 6px 10px 6px;
+        top: 50px;
+    }
+}
+
+.wonc-order-notes-list {
     max-height: 300px;
     overflow-y: auto;
     margin-bottom: 15px;
@@ -44,48 +65,55 @@
     padding-bottom: 15px;
 }
 
-.wc-order-notes-list .note {
+.wonc-order-notes-list .note {
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid #f5f5f5;
 }
 
-.wc-order-notes-list .note:last-child {
+.wonc-order-notes-list .note:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
     border-bottom: 0;
 }
 
-.wc-order-notes-list .note-content {
+.wonc-order-notes-list .note-content {
     margin-bottom: 10px;
 }
 
-.wc-order-notes-list .meta {
-    color: #999;
-    font-size: 12px;
-    margin: 0;
-}
-
-.wc-order-notes-add textarea {
-    width: 100%;
-    min-height: 80px;
-    margin-bottom: 10px;
-}
-
-.wc-order-notes-close {
+.wonc-order-notes-close {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 10px;
+    right: 10px;
     background: transparent;
     border: none;
-    font-size: 20px;
+    font-size: 24px;
     color: #888;
     cursor: pointer;
     line-height: 1;
     padding: 0;
     z-index: 10000;
 }
-
-.wc-order-notes-close:hover {
+.wonc-order-notes-close:hover {
     color: #ca4a1f;
+}
+
+.wonc-order-notes-add {
+    margin-top: 10px;
+}
+
+.wonc-order-notes-new-note {
+    width: 100%;
+    min-height: 50px;
+    margin-bottom: 8px;
+    resize: vertical;
+}
+
+.wonc-order-notes-type {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.wonc-order-notes-add-note {
+    width: 100%;
 }
