@@ -2,6 +2,7 @@ jQuery(document).ready(function($) {
     // Toggle notes popup
     $(document).on('click', '.wc-order-notes-toggle', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         
         var $button = $(this);
         var orderId = $button.data('order-id');
@@ -63,6 +64,11 @@ jQuery(document).ready(function($) {
         if (!$(e.target).closest('.wc-order-notes-container, .wc-order-notes-toggle').length) {
             $('.wc-order-notes-container').hide();
         }
+    });
+    
+    // Prevent click inside notes container from bubbling up
+    $(document).on('click', '.wc-order-notes-container', function(e) {
+        e.stopPropagation();
     });
     
     // Load order notes
