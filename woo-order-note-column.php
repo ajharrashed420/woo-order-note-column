@@ -20,6 +20,11 @@
 
 defined('ABSPATH') || exit;
 
+if ( ! defined( 'WONC_ORDER_VERSION' ) ) {
+	// Replace the version number of the theme on each release.
+	define( 'WONC_ORDER_VERSION', '1.2.2' );
+}
+
 // Declare HPOS compatibility
 add_action('before_woocommerce_init', function() {
     if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
@@ -183,18 +188,20 @@ class WONC_Order_Notes_Column_HPOS {
             return;
         }
 
+        $min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
         wp_enqueue_style(
             'wonc-order-notes-column',
-            plugins_url('assets/css/admin.css', __FILE__),
+            plugins_url('assets/css/admin'.$min_suffix.'.css', __FILE__),
             array(),
-            filemtime(plugin_dir_path(__FILE__) . 'assets/css/admin.css')
+            filemtime(plugin_dir_path(__FILE__) . 'assets/css/admin'.$min_suffix.'.css')
         );
 
         wp_enqueue_script(
             'wonc-order-notes-column',
-            plugins_url('assets/js/admin.js', __FILE__),
+            plugins_url('assets/js/admin'.$min_suffix.'.js', __FILE__),
             array('jquery'),
-            filemtime(plugin_dir_path(__FILE__) . 'assets/js/admin.js'),
+            filemtime(plugin_dir_path(__FILE__) . 'assets/js/admin'.$min_suffix.'.js'),
             true
         );
 
