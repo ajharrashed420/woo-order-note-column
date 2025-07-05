@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name: WooCommerce Order Notes Column (HPOS Compatible)
- * Plugin URI: https://wpmethods.com/plugins/wc-order-notes-column
+ * Plugin URI: https://wpmethods.com/wc-order-notes-column
  * Description: Adds a notes column to WooCommerce orders admin with note management functionality.
  * Version: 1.2.2
  * Author: WP Methods
  * Author URI: https://wpmethods.com
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: wc-order-notes-column
+ * Text Domain: woo-order-notes-column
  * Domain Path: /languages
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -81,9 +81,14 @@ class WC_Order_Notes_Column_HPOS {
         echo '</a>';
 
         echo '<div class="wc-order-notes-container" id="wc-order-notes-container-' . esc_attr($order_id) . '" style="display:none;">';
+        echo '<button type="button" class="wc-order-notes-close" title="' . esc_attr__('Close', 'wc-order-notes-column') . '">&times;</button>';
         echo '<div class="wc-order-notes-list"></div>';
         echo '<div class="wc-order-notes-add">';
         echo '<textarea class="wc-order-notes-new-note" placeholder="' . esc_attr__('Add a new note...', 'wc-order-notes-column') . '"></textarea>';
+        echo '<select class="wc-order-notes-type">';
+        echo '<option value="private">' . esc_html__('Private note', 'wc-order-notes-column') . '</option>';
+        echo '<option value="customer">' . esc_html__('Note to customer', 'wc-order-notes-column') . '</option>';
+        echo '</select>';
         echo '<button class="button wc-order-notes-add-note" data-order-id="' . esc_attr($order_id) . '">' . esc_html__('Add Note', 'wc-order-notes-column') . '</button>';
         echo '</div>';
         echo '</div>';
@@ -140,12 +145,13 @@ class WC_Order_Notes_Column_HPOS {
 
         $order_id = absint($_POST['order_id']);
         $note = wp_kses_post(trim(wp_unslash($_POST['note'])));
+        $note_type = isset($_POST['note_type']) && $_POST['note_type'] === 'customer' ? true : false;
         if (!$order_id || empty($note)) wp_die(-1);
 
         $order = wc_get_order($order_id);
         if (!$order) wp_die(-1);
 
-        $note_id = $order->add_order_note($note, false, false);
+        $note_id = $order->add_order_note($note, $note_type, false);
         if ($note_id) {
             $new_note = wc_get_order_note($note_id);
             ob_start();

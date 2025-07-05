@@ -71,3 +71,21 @@
     min-height: 80px;
     margin-bottom: 10px;
 }
+
+.wc-order-notes-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    z-index: 10000;
+}
+
+.wc-order-notes-close:hover {
+    color: #ca4a1f;
+}

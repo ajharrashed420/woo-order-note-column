@@ -30,6 +30,7 @@ jQuery(document).ready(function($) {
         var $container = $('#wc-order-notes-container-' + orderId);
         var $textarea = $container.find('.wc-order-notes-new-note');
         var note = $textarea.val().trim();
+        var noteType = $container.find('.wc-order-notes-type').val();
         
         if (!note) {
             return;
@@ -44,7 +45,8 @@ jQuery(document).ready(function($) {
                 action: 'wc_order_notes_add_note',
                 security: wc_order_notes_params.nonce,
                 order_id: orderId,
-                note: note
+                note: note,
+                note_type: noteType
             },
             success: function(response) {
                 if (response.success) {
@@ -118,4 +120,11 @@ jQuery(document).ready(function($) {
             $count.text(currentCount + 1);
         }
     }
+    
+    // Close notes popup when clicking the close button
+    $(document).on('click', '.wc-order-notes-close', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).closest('.wc-order-notes-container').hide();
+    });
 });
