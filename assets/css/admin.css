@@ -6,9 +6,14 @@ table.wp-list-table .column-wonc_order_notes {
 }
 
 .wonc-order-notes-toggle {
-    display: inline-block;
-    position: relative;
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #02cf02;
+    font-size: 14px;
 }
 
 .wonc-order-notes-count {

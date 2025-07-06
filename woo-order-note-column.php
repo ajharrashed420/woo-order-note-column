@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WooCommerce Order Notes Column (HPOS Compatible)
+ * Plugin Name: WooCommerce Order Notes Column
  * Plugin URI: https://wpmethods.com/wc-order-notes-column
  * Description: Adds a notes column to WooCommerce orders admin with note management functionality.
  * Version: 1.2.2
@@ -78,11 +78,17 @@ class WONC_Order_Notes_Column_HPOS {
         $order_id = $order_obj->get_id();
         $note_count = $this->wonc_get_order_note_count($order_obj);
 
-        echo '<a href="#" class="wonc-order-notes-toggle" data-order-id="' . esc_attr($order_id) . '" title="' . esc_attr__('Order notes', 'wonc-order-notes-column') . '">';
-        echo '<span class="dashicons dashicons-admin-comments"></span>';
-        if ($note_count > 0) {
-            echo '<span class="wonc-order-notes-count">' . esc_html($note_count) . '</span>';
+        // Fetch last private note
+        $private_notes = wc_get_order_notes(array('order_id' => $order_id, 'type' => 'internal', 'limit' => 1, 'orderby' => 'date_created', 'order' => 'DESC'));
+        if (!empty($private_notes)) {
+            $last_private_note = $private_notes[0];
+            echo '<div class="wonc-last-private-note" style="margin-bottom:6px;font-size:11px;color:#666;max-width:250px;">' . esc_html(wp_strip_all_tags($last_private_note->content)) . '</div>';
         }
+
+        echo '<a href="#" class="wonc-order-notes-toggle" data-order-id="' . esc_attr($order_id) . '" title="' . esc_attr__('Order notes', 'wonc-order-notes-column') . '">';
+        // Change icon to plus
+        echo '<span class="dashicons dashicons-plus"></span> Add Note';
+        
         echo '</a>';
 
         echo '<div class="wonc-order-notes-container" id="wonc-order-notes-container-' . esc_attr($order_id) . '" style="display:none;">';
@@ -158,6 +164,16 @@ class WONC_Order_Notes_Column_HPOS {
 
         $note_id = $order->add_order_note($note, $note_type, false);
         if ($note_id) {
+            // Set the note author to the current user if available
+            $user_id = get_current_user_id();
+            if ($user_id) {
+                global $wpdb;
+                $wpdb->update(
+                    $wpdb->comments,
+                    array('user_id' => $user_id),
+                    array('comment_ID' => $note_id)
+                );
+            }
             $new_note = wc_get_order_note($note_id);
             ob_start();
             ?>
