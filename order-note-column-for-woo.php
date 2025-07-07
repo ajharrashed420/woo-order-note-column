@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WooCommerce Order Notes Column
+ * Plugin Name: Order Note Admin Column for WooCommerce
  * Plugin URI: https://wpmethods.com/wc-order-notes-column
  * Description: Adds a notes column to WooCommerce orders admin with note management functionality.
  * Version: 1.2.2
@@ -8,7 +8,7 @@
  * Author URI: https://wpmethods.com
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: wonc-order-notes-column
+ * Text Domain: order-note-admin-column
  * Domain Path: /languages
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -61,7 +61,7 @@ class WONC_Order_Notes_Column_HPOS {
         foreach ($columns as $key => $column) {
             $new_columns[$key] = $column;
             if ('order_total' === $key || 'wc_actions' === $key) {
-                $new_columns['wonc_order_notes'] = __('Notes', 'wonc-order-notes-column');
+                $new_columns['wonc_order_notes'] = __('Notes', 'order-note-admin-column');
             }
         }
         return $new_columns;
@@ -85,22 +85,22 @@ class WONC_Order_Notes_Column_HPOS {
             echo '<div class="wonc-last-private-note" style="margin-bottom:6px;font-size:11px;color:#666;max-width:250px;">' . esc_html(wp_strip_all_tags($last_private_note->content)) . '</div>';
         }
 
-        echo '<a href="#" class="wonc-order-notes-toggle" data-order-id="' . esc_attr($order_id) . '" title="' . esc_attr__('Order notes', 'wonc-order-notes-column') . '">';
+        echo '<a href="#" class="wonc-order-notes-toggle" data-order-id="' . esc_attr($order_id) . '" title="' . esc_attr__('Order notes', 'order-note-admin-column') . '">';
         // Change icon to plus
         echo '<span class="dashicons dashicons-plus"></span> Add Note';
         
         echo '</a>';
 
         echo '<div class="wonc-order-notes-container" id="wonc-order-notes-container-' . esc_attr($order_id) . '" style="display:none;">';
-        echo '<button type="button" class="wonc-order-notes-close" title="' . esc_attr__('Close', 'wonc-order-notes-column') . '">&times;</button>';
+        echo '<button type="button" class="wonc-order-notes-close" title="' . esc_attr__('Close', 'order-note-admin-column') . '">&times;</button>';
         echo '<div class="wonc-order-notes-list"></div>';
         echo '<div class="wonc-order-notes-add">';
-        echo '<textarea class="wonc-order-notes-new-note" placeholder="' . esc_attr__('Add a new note...', 'wonc-order-notes-column') . '"></textarea>';
+        echo '<textarea class="wonc-order-notes-new-note" placeholder="' . esc_attr__('Add a new note...', 'order-note-admin-column') . '"></textarea>';
         echo '<select class="wonc-order-notes-type">';
-        echo '<option value="private">' . esc_html__('Private note', 'wonc-order-notes-column') . '</option>';
-        echo '<option value="customer">' . esc_html__('Note to customer', 'wonc-order-notes-column') . '</option>';
+        echo '<option value="private">' . esc_html__('Private note', 'order-note-admin-column') . '</option>';
+        echo '<option value="customer">' . esc_html__('Note to customer', 'order-note-admin-column') . '</option>';
         echo '</select>';
-        echo '<button class="button wonc-order-notes-add-note" data-order-id="' . esc_attr($order_id) . '">' . esc_html__('Add Note', 'wonc-order-notes-column') . '</button>';
+        echo '<button class="button wonc-order-notes-add-note" data-order-id="' . esc_attr($order_id) . '">' . esc_html__('Add Note', 'order-note-admin-column') . '</button>';
         echo '</div>';
         echo '</div>';
     }
@@ -134,7 +134,7 @@ class WONC_Order_Notes_Column_HPOS {
                     <p class="meta">
                         <?php
                         printf(
-                            __('Added by %s on %s at %s', 'wonc-order-notes-column'),
+                            __('Added by %s on %s at %s', 'order-note-admin-column'),
                             esc_html($note->added_by),
                             date_i18n(wc_date_format(), strtotime($note->date_created)),
                             date_i18n(wc_time_format(), strtotime($note->date_created))
@@ -145,7 +145,7 @@ class WONC_Order_Notes_Column_HPOS {
                 <?php
             }
         } else {
-            echo '<p class="no-notes">' . esc_html__('No notes yet.', 'wonc-order-notes-column') . '</p>';
+            echo '<p class="no-notes">' . esc_html__('No notes yet.', 'order-note-admin-column') . '</p>';
         }
         wp_send_json_success(ob_get_clean());
     }
@@ -184,7 +184,7 @@ class WONC_Order_Notes_Column_HPOS {
                 <p class="meta">
                     <?php
                     printf(
-                        __('Added by %s on %s at %s', 'wonc-order-notes-column'),
+                        __('Added by %s on %s at %s', 'order-note-admin-column'),
                         esc_html($new_note->added_by),
                         date_i18n(wc_date_format(), strtotime($new_note->date_created)),
                         date_i18n(wc_time_format(), strtotime($new_note->date_created))
@@ -207,34 +207,34 @@ class WONC_Order_Notes_Column_HPOS {
         $min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
         wp_enqueue_style(
-            'wonc-order-notes-column',
+            'order-note-admin-column',
             plugins_url('assets/css/admin'.$min_suffix.'.css', __FILE__),
             array(),
             filemtime(plugin_dir_path(__FILE__) . 'assets/css/admin'.$min_suffix.'.css')
         );
 
         wp_enqueue_script(
-            'wonc-order-notes-column',
+            'order-note-admin-column',
             plugins_url('assets/js/admin'.$min_suffix.'.js', __FILE__),
             array('jquery'),
             filemtime(plugin_dir_path(__FILE__) . 'assets/js/admin'.$min_suffix.'.js'),
             true
         );
 
-        wp_localize_script('wonc-order-notes-column', 'wonc_order_notes_params', array(
+        wp_localize_script('order-note-admin-column', 'wonc_order_notes_params', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('wonc_order_notes_nonce'),
             'i18n' => array(
-                'add_note_error' => __('Failed to add note. Please try again.', 'wonc-order-notes-column'),
-                'adding_note' => __('Adding...', 'wonc-order-notes-column'),
-                'loading' => __('Loading...', 'wonc-order-notes-column')
+                'add_note_error' => __('Failed to add note. Please try again.', 'order-note-admin-column'),
+                'adding_note' => __('Adding...', 'order-note-admin-column'),
+                'loading' => __('Loading...', 'order-note-admin-column')
             )
         ));
     }
 
     public function wonc_woocommerce_missing_notice() {
         echo '<div class="error"><p>' . sprintf(
-            esc_html__('WooCommerce Order Notes Column requires %s to be installed and active.', 'wonc-order-notes-column'),
+            esc_html__('WooCommerce Order Notes Column requires %s to be installed and active.', 'order-note-admin-column'),
             '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>'
         ) . '</p></div>';
     }
