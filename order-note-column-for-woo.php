@@ -20,9 +20,9 @@
 
 defined('ABSPATH') || exit;
 
-if ( ! defined( 'WONC_ORDER_VERSION' ) ) {
+if ( ! defined( 'ORDER_NOTE_COLUMN_VERSION_ONC' ) ) {
 	// Replace the version number of the theme on each release.
-	define( 'WONC_ORDER_VERSION', '1.2.2' );
+	define( 'ORDER_NOTE_COLUMN_VERSION_ONC', '1.2.2' );
 }
 
 // Declare HPOS compatibility
